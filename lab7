@@ -91,17 +91,27 @@ int main() {
     Store store;
     store.addProduct("Телефон", 10000, 10);
     store.addProduct("Ноутбук", 20000, 5);
-    Customer customer("Олег", 15000);
+
+    // виводимо список товарів у вигляді меню
+    cout << "Виберіть товар:" << endl;
+    for (int i = 0; i < store.products.size(); i++) {
+        cout << i + 1 << ". " << store.products[i].name << " - Ціна: " << store.products[i].price << ", Кількість: " << store.products[i].quantity << endl;
+    }
+
+    Customer customer("Олег", 1500000);
 
     cout << "Покупець " << customer.name << ". Бюджет: " << customer.budget << "." << endl;
 
-    Product product = store.findProduct("Телефон");
-    if (product.name == "") {
-        cout << "Вказане не вірна назва товару." << endl;
+    int choice;
+    cout << "Виберіть товар (1-" << store.products.size() << "): ";
+    cin >> choice;
+
+    if (choice < 1 || choice > store.products.size()) {
+        cout << "Ви вибрали неіснуючий товар." << endl;
         return 0;
     }
 
-    cout << "Товар: " << product.name << ". Ціна: " << product.price << ". Кількість: " << product.quantity << "." << endl;
+    Product product = store.products[choice - 1];
 
     if (!customer.makeOrder(product, 2)) {
         BlackList blackList;
@@ -110,3 +120,4 @@ int main() {
 
     return 0;
 }
+
